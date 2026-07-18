@@ -7,11 +7,11 @@ ledger for auditable balance tracking.
 
 ## Tech Stack
 
-Python 3.12 
-FASTAPI (API Layer)
-SQLAlchemy (ORM)
-SQLite (storage as it requires no setup and is swappable to Postgres via one env var)
-Pytest (testing)
+- Python 3.12 
+- FASTAPI (API Layer)
+- SQLAlchemy (ORM)
+- SQLite (storage as it requires no setup and is swappable to Postgres via one env var)
+- Pytest (testing)
 
 ## Setup 
 
