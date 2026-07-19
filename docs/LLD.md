@@ -25,12 +25,56 @@ User has no balance column. Instead, every money event is written as its own imm
   condition inherent to `balance += x`.
 
 ## 3. ER Diagram
-User (1) ──< (N) Sale
-User (1) ──< (N) LedgerEntry
-User (1) ──< (N) Payout
-Brand (1) ──< (N) Sale
-Sale (1) ──< (0..1) LedgerEntry   [ADVANCE_CREDIT, ADJUSTMENT entries reference sale_id]
-Payout (1) ──< (0..N) LedgerEntry [WITHDRAWAL_DEBIT, REVERSAL_CREDIT entries reference payout_id]
+# Entity-Relationship Diagram
+
+```mermaid
+erDiagram
+  USERS ||--o{ SALES : has
+  BRANDS ||--o{ SALES : has
+  USERS ||--o{ LEDGER_ENTRIES : owns
+  USERS ||--o{ PAYOUTS : requests
+  SALES ||--o| LEDGER_ENTRIES : generates
+  PAYOUTS ||--o{ LEDGER_ENTRIES : generates
+
+  USERS {
+    string id PK
+    string name
+    string email
+    datetime created_at
+  }
+  BRANDS {
+    string id PK
+    string name
+  }
+  SALES {
+    string id PK
+    string user_id FK
+    string brand_id FK
+    decimal earning
+    enum status
+    decimal advance_paid_amount
+    datetime advance_paid_at
+    datetime reconciled_at
+  }
+  LEDGER_ENTRIES {
+    string id PK
+    string user_id FK
+    string sale_id FK
+    string payout_id FK
+    enum type
+    decimal amount
+    string description
+    datetime created_at
+  }
+  PAYOUTS {
+    string id PK
+    string user_id FK
+    decimal amount
+    enum status
+    datetime requested_at
+    datetime completed_at
+  }
+```
 
 ## 4. Schema
 
